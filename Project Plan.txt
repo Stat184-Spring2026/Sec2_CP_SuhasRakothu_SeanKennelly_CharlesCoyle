@@ -1,0 +1,56 @@
+﻿Project Plan:
+Goals: Over the course of this project, we want to analyze how physical characteristics of a basketball player are predictors of a player's performance. We will plan to gain insights using RStudio and present our findings. 
+Needs: Basketball wingspan dataset
+github repository
+detailed plan
+wrangled dataset
+description of the data
+desciption of fair and care principles
+one plot and one table per group member
+additional files for repository
+qmd and pdf
+citations document
+presentation
+peer and self-evaluations
+Step-by-Step: 
+1. create a detailed plan of assignment
+2. research to find a dataset
+3. ensure dataset meets requirements
+4. wrangling/tidy the dataset
+5. find attributes to focus on
+6. write code for plots and tables
+7. ensure fair and care principles are met
+8. provide analysis on plots and tables
+9. prepare qmd file to report of analysis with visuals
+10. ensure repository meets all requirements (citations)
+11. present
+12. finish peer and self-evaluations
+
+
+Url to where we found the dataset: NBA Wingspan & Performance (Combined Dataset) – SCORE Sports Data Repository 
+Visualizations: 
+Pair 1: Physical Characteristics by Position  (Sean) 
+Table: A grouped summary table showing mean and SD of height_inches, wingspan_inches, and wingspan_advantage for each of the five positions (PG, SG, SF, PF, C).
+Visualization: A side-by-side box plot with position on the x-axis and wingspan/height on the y-axis, faceted to show both measurements. 
+
+
+Pair 2: Performance by Wingspan Advantage Tier (Charlie)
+Table: Players binned into Low (<4"), Medium (4–6"), and High (>6") wingspan advantage tiers, with average blk, trb, stl, and pts for each group.
+
+
+Visualization: A faceted bar chart with wingspan tier on the x-axis and separate panels for each stat (blk, trb, stl). If the hypothesis holds, you'd see a clear staircase pattern from Low to High across defensive stats.
+
+
+
+
+Pair 3: Player-Level Wingspan Extremes and Performance (Suhas)
+Table: The 10 players with the highest and 10 with the lowest wingspan_advantage, showing their position, height_inches, pts, blk, trb, and stl.
+Visualization: A scatter plot with wingspan_advantage on the x-axis and blk or trb on the y-axis, points colored by position, with player names labeled at the extremes using ggrepel. Shows the continuous relationship and whether it holds across positions.
+
+
+
+Items to submit:
+README.md
+QMD file
+pdf render of QMD file
+Project plan (this)
