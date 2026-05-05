@@ -106,3 +106,43 @@ This section explores the Wingspan Advantage of NBA players, which takes their w
 This analysis follows an EDA paradigm ( exploratory data analysis), becuase we are trying to indentify patterns in the data and not necesarrily look at a traditional hypothesis. In the coding, it is a Tidyverse perspective in R. This is becuase using packages such as 'dplyr', 'tidyr' and ggplot2 are the best for summarizing, analysing and visualizing the data.
 
 For this dataset, each case represents and individual and unique NBA player. Each row represents one player and includes both performance stats such as points and rebounds, as well as physical attributes such as height and wingspan. The main case attributes used in my section are points, steals, blocks, rebounds, and wingspan advantage(defined earlier as the difference between wingspan and height in inches.). The stats are measured as per 100 possesion performance.
+
+```{r}
+#| label: tbl-wingspan-summary
+#| echo: false
+# Primary Author: Charlie
+# Reviewed by:
+
+# --- 1. Load libraries ---
+library(dplyr)
+library(readr)
+library(knitr)
+
+# --- 2. Load data ---
+# Replace with your link
+df <- read_csv("https://data.scorenetwork.org/data/nba_wingspan_performance_2025.csv")
+
+# --- 3. Create wingspan advantage tiers ---
+df <- df %>%
+  mutate(
+    wingspan_tier = case_when(
+      wingspan_advantage < 4 ~ 'Low (<4")',
+      wingspan_advantage >= 4 & wingspan_advantage <= 6 ~ 'Medium (4–6")',
+      wingspan_advantage > 6 ~ 'High (>6")'
+    )
+  )
+
+# --- 4. Group and compute averages ---
+summary_table <- df %>%
+  group_by(wingspan_tier) %>%
+  summarise(
+    avg_blk = mean(blk, na.rm = TRUE),
+    avg_trb = mean(trb, na.rm = TRUE),
+    avg_stl = mean(stl, na.rm = TRUE),
+    avg_pts = mean(pts, na.rm = TRUE)
+  )
+
+# --- 5. View result ---
+kable(summary_table)
+```
+
