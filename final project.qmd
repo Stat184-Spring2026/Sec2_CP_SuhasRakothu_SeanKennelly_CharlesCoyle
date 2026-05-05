@@ -677,4 +677,77 @@ wingspan_extremes |>
   ) |>
   kable_styling(bootstrap_options = "striped")
 ```
+### Suhas Wingspan Extremes Visualization Code
 
+```{r}
+#| label: suhas-visual-appendix
+#| echo: true
+# Primary Author: Suhas
+# Reviewed by:
+
+ggplot(
+  players_clean,
+  aes(
+    x = wingspan_advantage,
+    y = blk,
+    color = position,
+    shape = position
+  )
+) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(
+    aes(group = 1),
+    method = "lm",
+    se = FALSE,
+    color = "black",
+    linetype = "dashed"
+  ) +
+  geom_text_repel(
+    data = wingspan_extremes,
+    aes(label = name),
+    size = 3,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Wingspan Advantage vs. Blocks",
+    x = "Wingspan Advantage (in)",
+    y = "Blocks",
+    color = "Position",
+    shape = "Position",
+    caption = "Source: SCORE Sports Data Repository"
+  ) +
+  theme_minimal()
+
+ggplot(
+  players_clean,
+  aes(
+    x = wingspan_advantage,
+    y = trb,
+    color = position,
+    shape = position
+  )
+) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(
+    aes(group = 1),
+    method = "lm",
+    se = FALSE,
+    color = "black",
+    linetype = "dashed"
+  ) +
+  geom_text_repel(
+    data = wingspan_extremes,
+    aes(label = name),
+    size = 3,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Wingspan Advantage vs. Total Rebounds",
+    x = "Wingspan Advantage (in)",
+    y = "Total Rebounds",
+    color = "Position",
+    shape = "Position",
+    caption = "Source: SCORE Sports Data Repository"
+  ) +
+  theme_minimal()
+```
