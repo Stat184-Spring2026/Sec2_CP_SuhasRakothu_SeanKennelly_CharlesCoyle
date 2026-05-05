@@ -254,6 +254,53 @@ wingspan_extremes <- bind_rows(
   highest_wingspan
 )
 ```
+The table below compares the 10 lowest and 10 highest players by wingspan
+advantage. This helps show the actual players in each group. The higher group
+seems to have stronger defensive stats overall, but it is not true for every
+player.
+
+```{r}
+#| label: suhas-extreme-table
+#| echo: false
+# Primary Author: Suhas
+# Reviewed by:
+
+wingspan_extremes |>
+  select(
+    group,
+    name,
+    position,
+    height_inches,
+    wingspan_advantage,
+    pts,
+    blk,
+    trb,
+    stl
+  ) |>
+  mutate(
+    height_inches = round(height_inches, 2),
+    wingspan_advantage = round(wingspan_advantage, 2),
+    pts = round(pts, 2),
+    blk = round(blk, 2),
+    trb = round(trb, 2),
+    stl = round(stl, 2)
+  ) |>
+  kable(
+    caption = "Players with the Highest and Lowest Wingspan Advantage",
+    col.names = c(
+      "Group",
+      "Player",
+      "Position",
+      "Height (in)",
+      "Wingspan Advantage (in)",
+      "PTS",
+      "BLK",
+      "TRB",
+      "STL"
+    )
+  ) |>
+  kable_styling(bootstrap_options = "striped")
+```
 ---
 #Code Appendix
 
