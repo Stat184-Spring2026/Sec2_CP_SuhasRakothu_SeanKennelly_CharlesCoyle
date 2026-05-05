@@ -15,21 +15,21 @@ Basketball is a high-intensity sport that relies heavily on physical characteris
 In this analysis we conduct an exploratory data analysis of NBA player's physical measurements along with their defensive statistics. Out goal is to identify whether and how physical characteristics of basketball players can be used to predict their performance on the court. Our three research questions we will answer through our analysis are:
 1. How do physical characteristics vary by position?
 2. How does wingspan advantage affect performance? 
-3. Is there a clear difference in performace with wingspan advantage?
+3. Is there a clear difference in performance with wingspan advantage?
 
 # Data Provenance
 
 The NBA Wingspan & Performance (Combined Dataset) was obtained from the SCORE Sports Data Repository. The dataset aggregates biometric measurements and performance statistics for NBA players from official and publicly available basketball data sources. The repository curates and combines these sources into a structured dataset for sports analytics research.
 
-The original data creators are official stat trackers from the NBA to measure performance and NBA teams and officials to measure the biometric values. The data is maintained by the SCORE repository. The data contains both quantitative and qualitative statistics including identifiers such as players' names, teams, and season. Some quantitative statistics include the biometric measurements and performance statistics. The data was collected across multiple NBA seasons, with the biometric measurements typically taken at the combine. The data was collected physically at NBA events, such as games and combines, and digatally at official NBA databases and public sports stats platforms. The purpose of this data is to track and evaluate players physical biometrics as well as their performance, and SCORE compiles data for research and analytical purposes. 
+The original data creators are official stat trackers from the NBA to measure performance and NBA teams and officials to measure the biometric values. The data is maintained by the SCORE repository. The data contains both quantitative and qualitative statistics including identifiers such as players' names, teams, and season. Some quantitative statistics include the biometric measurements and performance statistics. The data was collected across multiple NBA seasons, with the biometric measurements typically taken at the combine. The data was collected physically at NBA events, such as games and combines, and digitally at official NBA databases and public sports stats platforms. The purpose of this data is to track and evaluate players physical biometrics as well as their performance, and SCORE compiles data for research and analytic purposes. 
 
-This dataset was not used for any projects in class, contains real-world data, contains rich information for exploration, and is publically available for educational and research purposes. This dataset satisfies the FAIR principles because it is findable, available through SCORE repository, accessible, publicly downloadable, interoperable, structered format, and reusable. The dataset also satisfies most CARE principles because it has collective benefit, supports sports analytics and performance research,  responsibility, we interpret this data responsibly, and with minimal ethical concern. Because the NBA ultimately owns the data with limited user control, this does not completely satisfy the CARE principle of authority to control.
+This dataset was not used for any projects in class, contains real-world data, contains rich information for exploration, and is publicly available for educational and research purposes. This dataset satisfies the FAIR principles because it is find able, available through SCORE repository, accessible, publicly downloadable, inter operable, structered format, and reusable. The dataset also satisfies most CARE principles because it has collective benefit, supports sports analytics and performance research,  responsibility, we interpret this data responsibly, and with minimal ethical concern. Because the NBA ultimately owns the data with limited user control, this does not completely satisfy the CARE principle of authority to control.
 
 ---
 
 # Physical Analysis Across Positions
 
-In this section we will explore how biometric measurements of NBA players vary across position. This is useful in understanding the importance physical characteristics of a player have in their role and duty. By grouping the biometric measurements by position, we can see clear trends in postions that can relate to performance. In the table below, we analyze three different biometric measurements by position: Height (in), Wingspan (in), and Wingspan Advantage (in). We calculate their mean and standard deviation for each of these across all positions. It shows how Centers and Power Fowards on average have a higher height and wingspan.
+In this section we will explore how biometric measurements of NBA players vary across position. This is useful in understanding the importance physical characteristics of a player have in their role and duty. By grouping the biometric measurements by position, we can see clear trends in positions that can relate to performance. In the table below, we analyze three different biometric measurements by position: Height (in), Wingspan (in), and Wingspan Advantage (in). We calculate their mean and standard deviation for each of these across all positions. It shows how Centers and Power Forwards on average have a higher height and wingspan.
 
 ```{r}
 #| echo: false
@@ -59,7 +59,7 @@ nba_data |>
   add_header_above(c(" " = 1, "Height (in)" = 2, "Wingspan (in)" = 2, "Wingspan Advantage (in)" = 2)) |>
   kable_styling(bootstrap_options = "striped")
 ```
-The plot below shows boxplots for each position with respect to both height and wingspan. From this we can clearly see trends across positions. Centers clearly have the largest height and wingspan spread, followed closely by both foward positions. This may be insightful later into understanding the defensive contributions these positions have. Both gaurd positions have a smaller height and wingspan spread. Point gaurds specifically have the lowest height and wingspan spread, which makes sense because they are generally the most skillful players on their team. These boxplots highlight the importance of height and wingspan in basketball. 
+The plot below shows boxplots for each position with respect to both height and wingspan. From this we can clearly see trends across positions. Centers clearly have the largest height and wingspan spread, followed closely by both forward positions. This may be insightful later into understanding the defensive contributions these positions have. Both guard positions have a smaller height and wingspan spread. Point guards specifically have the lowest height and wingspan spread, which makes sense because they are generally the most skillful players on their team. These boxplots highlight the importance of height and wingspan in basketball. 
 
 ```{r}
 #| echo: false
@@ -93,7 +93,7 @@ nba_data |>
   theme(legend.position = "none")
 ```
 
-ALt text: Boxplots comparing NBA player height and wingspan by position.
+Alt text: Boxplots comparing NBA player height and wingspan by position.
 
 Long Description: Two boxplot panels show height and wingspan (in) for NBA positions (C, PF, PG, SF, SG). Centers have the highest medians in both height and wingspan, followed by power forwards and small forwards. Shooting guards are slightly smaller, and point guards are the smallest. Distributions overlap but show a clear size trend by position.
 
