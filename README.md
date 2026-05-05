@@ -1,10 +1,11 @@
-# Project Title
+# STAT184 Final Project 
 
-Write a 1-2 sentences that quickly and clearly convey what your repo is for.
+This repository is for our STAT184 group project. The authors are Sean Kennelly, Charles Coyle, and Suhas Rakothu from Section 2 of STAT184.
 
 ## Overview
 
-Expand on those introductory sentences with a brief but informative description of your project's purpose and goals. This section should help visitors decide whether they should dig deeper into your repo/project.
+It contains an analalysis and insights on the NBA Wingspan & Performance (Combined Dataset) to better understand how physical characteristics of a basketball player are predictors of their performance on the court. Specifically we try to understand how wingspan, height, and position can be used as accurate predictors of a players defensive performance. 
+
 
 ### Interesting Insight (Optional)
 
@@ -12,11 +13,11 @@ This is optional but highly recommended. You'll include one interesting insight 
 
 ## Data Sources and Acknowledgements
 
-Be sure to list where you got any data used within the project. Be sure to acknowledge any one whose work or elements you're drawing upon.
+Our data is from the NBA Wingspan & Performance (Combined Dataset) from the SCORE Sports Data Repository. The link to the dataset is here: https://data.scorenetwork.org/basketball/nba_wingspans_and_performance.html 
 
 ## Current Plan
 
-Provide some information about what you intend to do with the project. You can additionally refer the visitor to your detailed plan document.
+Refer to plan document (Project Plan).
 
 ## Repo Structure
 
