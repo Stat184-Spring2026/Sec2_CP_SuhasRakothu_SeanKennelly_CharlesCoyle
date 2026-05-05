@@ -93,7 +93,7 @@ nba_data |>
   theme(legend.position = "none")
 ```
 
-ALt text: Boxplots comparing NBA player height and wingspan by position.
+Alt text: Boxplots comparing NBA player height and wingspan by position.
 
 Long Description: Two boxplot panels show height and wingspan (in) for NBA positions (C, PF, PG, SF, SG). Centers have the highest medians in both height and wingspan, followed by power forwards and small forwards. Shooting guards are slightly smaller, and point guards are the smallest. Distributions overlap but show a clear size trend by position.
 
