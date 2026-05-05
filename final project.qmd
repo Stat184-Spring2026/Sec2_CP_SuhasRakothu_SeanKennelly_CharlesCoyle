@@ -369,6 +369,55 @@ wingspan_extremes |>
   ) |>
   kable_styling(bootstrap_options = "striped")
 ```
+The scatter plot below compares wingspan advantage and blocks. There is a small
+upward trend, but position still matters. Centers and forwards usually get more
+block chances because of where they play.
+
+```{r}
+#| label: suhas-blocks-plot
+#| echo: false
+#| fig-cap: "Wingspan Advantage Compared to Blocks by Position"
+#| fig-alt: "Scatter plot of wingspan advantage and blocks by position with extremes labeled."
+# Primary Author: Suhas
+# Reviewed by:
+
+ggplot(
+  players_clean,
+  aes(
+    x = wingspan_advantage,
+    y = blk,
+    color = position,
+    shape = position
+  )
+) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(
+    aes(group = 1),
+    method = "lm",
+    se = FALSE,
+    color = "black",
+    linetype = "dashed"
+  ) +
+  geom_text_repel(
+    data = wingspan_extremes,
+    aes(label = name),
+    size = 3,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Wingspan Advantage vs. Blocks",
+    x = "Wingspan Advantage (in)",
+    y = "Blocks",
+    color = "Position",
+    shape = "Position",
+    caption = "Source: SCORE Sports Data Repository"
+  ) +
+  theme_minimal()
+```
+
+Alt text: Scatter plot of wingspan advantage and blocks. Points are colored and
+shaped by position, and the highest and lowest wingspan advantage players are
+labeled.
 ---
 #Code Appendix
 
