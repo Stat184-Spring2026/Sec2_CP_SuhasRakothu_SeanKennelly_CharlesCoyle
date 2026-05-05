@@ -565,5 +565,116 @@ ggplot(summary_long, aes(x = wingspan_tier, y = average, fill = stat)) +
   ) +
   theme_minimal()
 ```
+## Suhas Wingspan Extremes Table Code
 
+```{r}
+#| label: suhas-table-appendix
+#| echo: true
+# Primary Author: Suhas
+# Reviewed by:
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(ggrepel)
+
+nba_data <- read_csv("nba_wingspan_performance_2025.csv")
+
+players_clean <- nba_data |>
+  select(
+    name,
+    position,
+    height_inches,
+    wingspan_advantage,
+    pts,
+    blk,
+    trb,
+    stl
+  ) |>
+  filter(
+    !is.na(name),
+    !is.na(position),
+    !is.na(height_inches),
+    !is.na(wingspan_advantage),
+    !is.na(pts),
+    !is.na(blk),
+    !is.na(trb),
+    !is.na(stl)
+  )
+
+lowest_wingspan <- players_clean |>
+  arrange(wingspan_advantage) |>
+  slice_head(n = 10) |>
+  mutate(group = "Lowest Wingspan Advantage")
+
+highest_wingspan <- players_clean |>
+  arrange(desc(wingspan_advantage)) |>
+  slice_head(n = 10) |>
+  mutate(group = "Highest Wingspan Advantage")
+
+wingspan_extremes <- bind_rows(
+  lowest_wingspan,
+  highest_wingspan
+)
+
+wingspan_extremes |>
+  select(
+    group,
+    name,
+    position,
+    height_inches,
+    wingspan_advantage,
+    pts,
+    blk,
+    trb,
+    stl
+  ) |>
+  mutate(
+    height_inches = round(height_inches, 2),
+    wingspan_advantage = round(wingspan_advantage, 2),
+    pts = round(pts, 2),
+    blk = round(blk, 2),
+    trb = round(trb, 2),
+    stl = round(stl, 2)
+  ) |>
+  kable(
+    caption = "Players with the Highest and Lowest Wingspan Advantage",
+    col.names = c(
+      "Group",
+      "Player",
+      "Position",
+      "Height (in)",
+      "Wingspan Advantage (in)",
+      "PTS",
+      "BLK",
+      "TRB",
+      "STL"
+    )
+  ) |>
+  kable_styling(bootstrap_options = "striped")
+
+wingspan_extremes |>
+  group_by(group) |>
+  summarize(
+    Players = n(),
+    Mean_Wingspan_Advantage = round(mean(wingspan_advantage), 2),
+    Mean_PTS = round(mean(pts), 2),
+    Mean_BLK = round(mean(blk), 2),
+    Mean_TRB = round(mean(trb), 2),
+    Mean_STL = round(mean(stl), 2)
+  ) |>
+  kable(
+    caption = "Average Stats for Wingspan Advantage Extremes",
+    col.names = c(
+      "Group",
+      "Players",
+      "Mean Wingspan Advantage",
+      "Mean PTS",
+      "Mean BLK",
+      "Mean TRB",
+      "Mean STL"
+    )
+  ) |>
+  kable_styling(bootstrap_options = "striped")
+```
 
