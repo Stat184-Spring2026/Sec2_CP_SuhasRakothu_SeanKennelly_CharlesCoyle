@@ -207,6 +207,8 @@ This is exploratory because I am looking for patterns, not trying to prove wings
 ```{r}
 #| label: suhas-clean-players
 #| echo: false
+#| message: false
+#| warning: false
 # Primary Author: Suhas
 # Reviewed by:
 
@@ -215,7 +217,10 @@ library(knitr)
 library(kableExtra)
 library(ggrepel)
 
-nba_data <- read_csv("nba_wingspan_performance_2025.csv")
+nba_data <- read_csv(
+  "nba_wingspan_performance_2025.csv",
+  show_col_types = FALSE
+)
 
 players_clean <- nba_data |>
   select(
@@ -262,6 +267,8 @@ player.
 ```{r}
 #| label: suhas-extreme-table
 #| echo: false
+#| message: false
+#| warning: false
 # Primary Author: Suhas
 # Reviewed by:
 
@@ -308,6 +315,8 @@ shows a possible pattern, but not a perfect one.
 ```{r}
 #| label: suhas-summary-table
 #| echo: false
+#| message: false
+#| warning: false
 # Primary Author: Suhas
 # Reviewed by:
 
@@ -343,6 +352,8 @@ block chances because of where they play.
 ```{r}
 #| label: suhas-blocks-plot
 #| echo: false
+#| message: false
+#| warning: false
 #| fig-cap: "Wingspan Advantage Compared to Blocks by Position"
 #| fig-alt: "Scatter plot of wingspan advantage and blocks by position with extremes labeled."
 # Primary Author: Suhas
@@ -392,6 +403,8 @@ advantage still rebound well, so rebounding depends on more than arm length.
 ```{r}
 #| label: suhas-rebounds-plot
 #| echo: false
+#| message: false
+#| warning: false
 #| fig-cap: "Wingspan Advantage Compared to Total Rebounds by Position"
 #| fig-alt: "Scatter plot of wingspan advantage and rebounds by position with extremes labeled."
 # Primary Author: Suhas
@@ -537,6 +550,8 @@ ggplot(summary_long, aes(x = wingspan_tier, y = average, fill = stat)) +
 ```{r}
 #| label: suhas-table-appendix
 #| echo: true
+#| message: false
+#| warning: false
 # Primary Author: Suhas
 # Reviewed by:
 
@@ -649,6 +664,8 @@ wingspan_extremes |>
 ```{r}
 #| label: suhas-visual-appendix
 #| echo: true
+#| message: false
+#| warning: false
 # Primary Author: Suhas
 # Reviewed by:
 
