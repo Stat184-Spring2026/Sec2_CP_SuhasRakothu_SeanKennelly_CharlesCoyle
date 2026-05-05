@@ -66,6 +66,7 @@ nba_data |>
   add_header_above(c(" " = 1, "Height (in)" = 2, "Wingspan (in)" = 2, "Wingspan Advantage (in)" = 2)) |>
   kable_styling(bootstrap_options = "striped")
 ```
+
 The plot below shows boxplots for each position with respect to both height and wingspan. From this we can clearly see trends across positions. Centers clearly have the largest height and wingspan spread, followed closely by both forward positions. This may be insightful later into understanding the defensive contributions these positions have. Both guard positions have a smaller height and wingspan spread. Point guards specifically have the lowest height and wingspan spread, which makes sense because they are generally the most skillful players on their team. These boxplots highlight the importance of height and wingspan in basketball. 
 
 ```{r}
@@ -223,6 +224,67 @@ position, height, wingspan advantage, points, blocks, rebounds, and steals.
 #Code Appendix
 
 This appendix contains all R code used to import, clean, analyze, and visualize the data for our dataset
+
+## Physical Charactistics by Position Summary Table
+```{r}
+# Primary Author: Sean
+# Reviewed by:
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+
+nba_data <- read_csv("nba_wingspan_performance_2025.csv")
+
+nba_data |>
+  group_by(position) |>
+  summarize(
+    Mean_Height = round(mean(height_inches, na.rm = TRUE), 2),
+    SD_Height = round(sd(height_inches, na.rm = TRUE), 2),
+    Mean_Wingspan = round(mean(wingspan_inches, na.rm = TRUE), 2),
+    SD_Wingspan = round(sd(wingspan_inches, na.rm = TRUE), 2),
+    Mean_Advantage = round(mean(wingspan_advantage, na.rm = TRUE), 2),
+    SD_Advantage = round(sd(wingspan_advantage, na.rm = TRUE), 2)
+  ) |>
+  kable(
+    caption = "Physical Characteristics by Position",
+    col.names = c("Position", "Mean", "SD", "Mean", "SD", "Mean", "SD")
+  ) |>
+  add_header_above(c(" " = 1, "Height (in)" = 2, "Wingspan (in)" = 2, "Wingspan Advantage (in)" = 2)) |>
+  kable_styling(bootstrap_options = "striped")
+```
+## Physical Characteristics by Position Box Plots
+
+```{r}
+# Primary Author: Sean
+# Reviewed by: 
+
+nba_data |>
+  select(position, height_inches, wingspan_inches) |>
+  pivot_longer(
+    cols = c(height_inches, wingspan_inches),
+    names_to = "measurement",
+    values_to = "inches"
+  ) |>
+  mutate(
+    measurement = recode(measurement,
+                         "height_inches" = "Height",
+                         "wingspan_inches" = "Wingspan"
+    )
+  ) |>
+  ggplot(aes(x = position, y = inches, fill = position)) +
+  geom_boxplot() +
+  facet_wrap(~measurement) +
+  labs(
+    title = "Physical Characteristics by Position",
+    x = "Position",
+    y = "Inches",
+    fill = "Position",
+    caption = "Source: SCORE Sports Data Repository"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
 
 ## Wingspan Analysis Table Code
 
