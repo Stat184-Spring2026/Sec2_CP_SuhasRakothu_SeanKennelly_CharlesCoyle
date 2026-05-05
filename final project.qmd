@@ -99,3 +99,6 @@ Long Description: Two boxplot panels show height and wingspan (in) for NBA posit
 
 ---
 
+# Wingspan Advantage vs Statistical Perfomance (Charlie)
+
+This section explores the Wingspan Advantage of NBA players, which takes their wingspan in inches and subtracts their height from it. I attempted to explore how much Wingspan advatanage has an impact on the statistic performance of the players, and if greater wingspan advantage leads players to have higher overall statistis. I also mainly focused on defensive areas such as rebounds, blocks, and steals because from scanning the dataset their seemed to be the most variety in those areas.
