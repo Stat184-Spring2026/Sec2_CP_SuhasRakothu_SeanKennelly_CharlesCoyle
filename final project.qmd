@@ -145,4 +145,4 @@ summary_table <- df %>%
 # --- 5. View result ---
 kable(summary_table)
 ```
-
+This table shows us the average statistics for the NBA players, as grouped by wingspan tier. I catogerized the players based on if they had a relatively low wingspan advantage (<4 inches), a medium one (4-6 inches) or a high one (>6 inches). When looking at this table we are able to analyze if a larger wingspan advantage leads players to perform better in certain categories, regardless of position. Overall there was a difference with the players with a high wingspan advantage performing better in every category, but it was the most noticable in the gap between low and medium when looking at blocks and rebounds which are more defensive statistics. We also must classify these results as descriptive though, as it cannot be proven that wingspan directly causes better statistical performance especially defensively due to other influences such as team role, team success, playing time, and position also may cause these differences.
