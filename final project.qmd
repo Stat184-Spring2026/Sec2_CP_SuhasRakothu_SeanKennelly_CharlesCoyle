@@ -119,7 +119,7 @@ For this dataset, each case represents and individual and unique NBA player. Eac
 #| label: tbl-wingspan-summary
 #| echo: false
 # Primary Author: Charlie
-# Reviewed by:
+# Reviewed by: Sean 
 
 # ---  Load libraries ---
 library(dplyr)
@@ -159,7 +159,7 @@ This table shows us the average statistics for the NBA players, as grouped by wi
 #| label: tbl-wingspan-summary
 #| echo: false
 # Primary Author: Charlie
-# Reviewed by:
+# Reviewed by: Sean
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -227,6 +227,7 @@ This appendix contains all R code used to import, clean, analyze, and visualize 
 
 ## Physical Charactistics by Position Summary Table
 ```{r}
+#| echo: true
 # Primary Author: Sean
 # Reviewed by:
 
@@ -256,6 +257,7 @@ nba_data |>
 ## Physical Characteristics by Position Box Plots
 
 ```{r}
+#| echo: true
 # Primary Author: Sean
 # Reviewed by: 
 
@@ -292,7 +294,7 @@ nba_data |>
 #| label: tbl-wingspan-appendix
 #| echo: true
 # Primary Author: Charlie
-# Reviewed by:
+# Reviewed by: Sean
 
 # ---  Load libraries ---
 library(dplyr)
@@ -334,7 +336,7 @@ kable(summary_table)
 #| label: visual-wingspan-appendix
 #| echo: true
 # Primary Author: Charlie
-# Reviewed by:
+# Reviewed by: Sean 
 library(dplyr)
 library(tidyr)
 library(ggplot2)
