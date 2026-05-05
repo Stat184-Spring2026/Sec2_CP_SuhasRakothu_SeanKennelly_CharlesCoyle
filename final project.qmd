@@ -301,6 +301,74 @@ wingspan_extremes |>
   ) |>
   kable_styling(bootstrap_options = "striped")
 ```
+The table below shows the averages for each group. The high wingspan advantage
+group has a higher average for some defensive stats, especially blocks. This
+shows a possible pattern, but not a perfect one.
+
+```{r}
+#| label: suhas-summary-table
+#| echo: false
+# Primary Author: Suhas
+# Reviewed by:
+
+wingspan_extremes |>
+  group_by(group) |>
+  summarize(
+    Players = n(),
+    Mean_Wingspan_Advantage = round(mean(wingspan_advantage), 2),
+    Mean_PTS = round(mean(pts), 2),
+    Mean_BLK = round(mean(blk), 2),
+    Mean_TRB = round(mean(trb), 2),
+    Mean_STL = round(mean(stl), 2)
+  ) |>
+  kable(
+    caption = "Average Stats for Wingspan Advantage Extremes",
+    col.names = c(
+      "Group",
+      "Players",
+      "Mean Wingspan Advantage",
+      "Mean PTS",
+      "Mean BLK",
+      "Mean TRB",
+      "Mean STL"
+    )
+  ) |>
+  kable_styling(bootstrap_options = "striped")
+```
+The table below shows the averages for each group. The high wingspan advantage
+group has a higher average for some defensive stats, especially blocks. This
+shows a possible pattern, but not a perfect one.
+
+```{r}
+#| label: suhas-summary-table
+#| echo: false
+# Primary Author: Suhas
+# Reviewed by:
+
+wingspan_extremes |>
+  group_by(group) |>
+  summarize(
+    Players = n(),
+    Mean_Wingspan_Advantage = round(mean(wingspan_advantage), 2),
+    Mean_PTS = round(mean(pts), 2),
+    Mean_BLK = round(mean(blk), 2),
+    Mean_TRB = round(mean(trb), 2),
+    Mean_STL = round(mean(stl), 2)
+  ) |>
+  kable(
+    caption = "Average Stats for Wingspan Advantage Extremes",
+    col.names = c(
+      "Group",
+      "Players",
+      "Mean Wingspan Advantage",
+      "Mean PTS",
+      "Mean BLK",
+      "Mean TRB",
+      "Mean STL"
+    )
+  ) |>
+  kable_styling(bootstrap_options = "striped")
+```
 ---
 #Code Appendix
 
