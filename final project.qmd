@@ -2,25 +2,100 @@
 title: "STAT184 Final Project"
 format: html
 editor: visual
+author:
+  - name: Suhas Rakothu
+  - name: Sean Kennelly
+  - name: Charles Coyle
 ---
 
-## Quarto
+# Introduction
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+Basketball is a high-intensity sport that relies heavily on physical characteristics. Most notably, height has always been seen as a leading factor, but how do other physical characteristics predict a basketball players performance. Wingspan, the measure of distance from fingertip to fingertip with arms fully extended, has been widely regarded as a critical role in defensive performance.  A longer wingspan enables players to contest shots at a higher point, disrupt passing lanes, and generate turnovers more effectively. 
 
-## Running Code
+In this analysis we conduct an exploratory data analysis of NBA player's physical measurements along with their defensive statistics. Out goal is to identify whether and how physical characteristics of basketball players can be used to predict their performance on the court. Our three research questions we will answer through our analysis are:
+1. How do physical characteristics vary by position?
+2. How does wingspan advantage affect performance? 
+3. Is there a clear difference in performace with wingspan advantage?
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+# Data Provenance
 
-```{r}
-1 + 1
-```
+The NBA Wingspan & Performance (Combined Dataset) was obtained from the SCORE Sports Data Repository. The dataset aggregates biometric measurements and performance statistics for NBA players from official and publicly available basketball data sources. The repository curates and combines these sources into a structured dataset for sports analytics research.
 
-You can add options to executable code like this
+The original data creators are official stat trackers from the NBA to measure performance and NBA teams and officials to measure the biometric values. The data is maintained by the SCORE repository. The data contains both quantitative and qualitative statistics including identifiers such as players' names, teams, and season. Some quantitative statistics include the biometric measurements and performance statistics. The data was collected across multiple NBA seasons, with the biometric measurements typically taken at the combine. The data was collected physically at NBA events, such as games and combines, and digatally at official NBA databases and public sports stats platforms. The purpose of this data is to track and evaluate players physical biometrics as well as their performance, and SCORE compiles data for research and analytical purposes. 
+
+This dataset was not used for any projects in class, contains real-world data, contains rich information for exploration, and is publically available for educational and research purposes. This dataset satisfies the FAIR principles because it is findable, available through SCORE repository, accessible, publicly downloadable, interoperable, structered format, and reusable. The dataset also satisfies most CARE principles because it has collective benefit, supports sports analytics and performance research,  responsibility, we interpret this data responsibly, and with minimal ethical concern. Because the NBA ultimately owns the data with limited user control, this does not completely satisfy the CARE principle of authority to control.
+
+---
+
+# Physical Analysis Across Positions
+
+In this section we will explore how biometric measurements of NBA players vary across position. This is useful in understanding the importance physical characteristics of a player have in their role and duty. By grouping the biometric measurements by position, we can see clear trends in postions that can relate to performance. In the table below, we analyze three different biometric measurements by position: Height (in), Wingspan (in), and Wingspan Advantage (in). We calculate their mean and standard deviation for each of these across all positions. It shows how Centers and Power Fowards on average have a higher height and wingspan.
 
 ```{r}
 #| echo: false
-2 * 2
+# Primary Author: Sean
+# Reviewed by:
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+
+nba_data <- read_csv("nba_wingspan_performance_2025.csv")
+
+nba_data |>
+  group_by(position) |>
+  summarize(
+    Mean_Height = round(mean(height_inches, na.rm = TRUE), 2),
+    SD_Height = round(sd(height_inches, na.rm = TRUE), 2),
+    Mean_Wingspan = round(mean(wingspan_inches, na.rm = TRUE), 2),
+    SD_Wingspan = round(sd(wingspan_inches, na.rm = TRUE), 2),
+    Mean_Advantage = round(mean(wingspan_advantage, na.rm = TRUE), 2),
+    SD_Advantage = round(sd(wingspan_advantage, na.rm = TRUE), 2)
+  ) |>
+  kable(
+    caption = "Physical Characteristics by Position",
+    col.names = c("Position", "Mean", "SD", "Mean", "SD", "Mean", "SD")
+  ) |>
+  add_header_above(c(" " = 1, "Height (in)" = 2, "Wingspan (in)" = 2, "Wingspan Advantage (in)" = 2)) |>
+  kable_styling(bootstrap_options = "striped")
+```
+The plot below shows boxplots for each position with respect to both height and wingspan. From this we can clearly see trends across positions. Centers clearly have the largest height and wingspan spread, followed closely by both foward positions. This may be insightful later into understanding the defensive contributions these positions have. Both gaurd positions have a smaller height and wingspan spread. Point gaurds specifically have the lowest height and wingspan spread, which makes sense because they are generally the most skillful players on their team. These boxplots highlight the importance of height and wingspan in basketball. 
+
+```{r}
+#| echo: false
+# Primary Author: Sean
+# Reviewed by: 
+
+nba_data |>
+  select(position, height_inches, wingspan_inches) |>
+  pivot_longer(
+    cols = c(height_inches, wingspan_inches),
+    names_to = "measurement",
+    values_to = "inches"
+  ) |>
+  mutate(
+    measurement = recode(measurement,
+                         "height_inches" = "Height",
+                         "wingspan_inches" = "Wingspan"
+    )
+  ) |>
+  ggplot(aes(x = position, y = inches, fill = position)) +
+  geom_boxplot() +
+  facet_wrap(~measurement) +
+  labs(
+    title = "Physical Characteristics by Position",
+    x = "Position",
+    y = "Inches",
+    fill = "Position",
+    caption = "Source: SCORE Sports Data Repository"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+ALt text: Boxplots comparing NBA player height and wingspan by position.
+
+Long Description: Two boxplot panels show height and wingspan (in) for NBA positions (C, PF, PG, SF, SG). Centers have the highest medians in both height and wingspan, followed by power forwards and small forwards. Shooting guards are slightly smaller, and point guards are the smallest. Distributions overlap but show a clear size trend by position.
+
+---
+
