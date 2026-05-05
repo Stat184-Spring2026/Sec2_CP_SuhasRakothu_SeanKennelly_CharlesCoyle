@@ -221,7 +221,7 @@ make tables, and create plots.
 Each row in this data set is one NBA player. The main things I used were
 position, height, wingspan advantage, points, blocks, rebounds, and steals.
 ---
-#Code Appendix
+# Code Appendix
 
 This appendix contains all R code used to import, clean, analyze, and visualize the data for our dataset
 
