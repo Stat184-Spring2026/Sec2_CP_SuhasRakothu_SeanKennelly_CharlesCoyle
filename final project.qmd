@@ -200,15 +200,60 @@ Overall, the results were as I expected as there was a clear correlation between
 
 # Player-Level Wingspan Extremes and Performance (Suhas)
 
-For my part, I looked at players with the highest and lowest wingspan advantage.
-Wingspan advantage is the difference between a player's wingspan and height. I
-wanted to see if players with a bigger wingspan advantage also had better stats,
-mainly blocks and rebounds.
+For my part, I looked at players with the highest and lowest wingspan advantage. Wingspan advantage is the difference between a player's wingspan and height. I wanted to see if players with a bigger wingspan advantage also had better stats, mainly blocks and rebounds.
 
-This is exploratory because I am looking for patterns, not trying to prove
-wingspan causes better performance. Each row is one NBA player. The main
-variables I used are position, height, wingspan advantage, points, blocks,
-rebounds, and steals.
+This is exploratory because I am looking for patterns, not trying to prove wingspan causes better performance. Each row is one NBA player. The main variables I used are position, height, wingspan advantage, points, blocks, rebounds, and steals.
+
+```{r}
+#| label: suhas-clean-players
+#| echo: false
+# Primary Author: Suhas
+# Reviewed by:
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(ggrepel)
+
+nba_data <- read_csv("nba_wingspan_performance_2025.csv")
+
+players_clean <- nba_data |>
+  select(
+    name,
+    position,
+    height_inches,
+    wingspan_advantage,
+    pts,
+    blk,
+    trb,
+    stl
+  ) |>
+  filter(
+    !is.na(name),
+    !is.na(position),
+    !is.na(height_inches),
+    !is.na(wingspan_advantage),
+    !is.na(pts),
+    !is.na(blk),
+    !is.na(trb),
+    !is.na(stl)
+  )
+
+lowest_wingspan <- players_clean |>
+  arrange(wingspan_advantage) |>
+  slice_head(n = 10) |>
+  mutate(group = "Lowest Wingspan Advantage")
+
+highest_wingspan <- players_clean |>
+  arrange(desc(wingspan_advantage)) |>
+  slice_head(n = 10) |>
+  mutate(group = "Highest Wingspan Advantage")
+
+wingspan_extremes <- bind_rows(
+  lowest_wingspan,
+  highest_wingspan
+)
+```
 ---
 #Code Appendix
 
