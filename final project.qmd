@@ -113,16 +113,16 @@ For this dataset, each case represents and individual and unique NBA player. Eac
 # Primary Author: Charlie
 # Reviewed by:
 
-# --- 1. Load libraries ---
+# ---  Load libraries ---
 library(dplyr)
 library(readr)
 library(knitr)
 
-# --- 2. Load data ---
+# ---  Load data ---
 # Replace with your link
 df <- read_csv("https://data.scorenetwork.org/data/nba_wingspan_performance_2025.csv")
 
-# --- 3. Create wingspan advantage tiers ---
+# ---  Create wingspan advantage tiers ---
 df <- df %>%
   mutate(
     wingspan_tier = case_when(
@@ -132,7 +132,7 @@ df <- df %>%
     )
   )
 
-# --- 4. Group and compute averages ---
+# ---  Group and compute averages ---
 summary_table <- df %>%
   group_by(wingspan_tier) %>%
   summarise(
@@ -142,7 +142,56 @@ summary_table <- df %>%
     avg_pts = mean(pts, na.rm = TRUE)
   )
 
-# --- 5. View result ---
+# ---  View result ---
 kable(summary_table)
 ```
+#| label: fig-wingspan-defense
+#| echo: false
+#| fig-cap: "Average Defensive Stats by Wingspan Advantage Tier"
+#| fig-alt: "Bar charts showing average blocks, rebounds, and steals for NBA players in low, medium, and high wingspan advantage tiers."
 This table shows us the average statistics for the NBA players, as grouped by wingspan tier. I catogerized the players based on if they had a relatively low wingspan advantage (<4 inches), a medium one (4-6 inches) or a high one (>6 inches). When looking at this table we are able to analyze if a larger wingspan advantage leads players to perform better in certain categories, regardless of position. Overall there was a difference with the players with a high wingspan advantage performing better in every category, but it was the most noticable in the gap between low and medium when looking at blocks and rebounds which are more defensive statistics. We also must classify these results as descriptive though, as it cannot be proven that wingspan directly causes better statistical performance especially defensively due to other influences such as team role, team success, playing time, and position also may cause these differences.
+```{r}
+#| label: tbl-wingspan-summary
+#| echo: false
+# Primary Author: Charlie
+# Reviewed by:
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+df <- read.csv("https://data.scorenetwork.org/data/nba_wingspan_performance_2025.csv")
+
+summary_long <- df %>%
+  mutate(
+    wingspan_tier = case_when(
+      wingspan_advantage < 4 ~ 'Low (<4")',
+      wingspan_advantage >= 4 & wingspan_advantage <= 6 ~ 'Medium (4–6")',
+      wingspan_advantage > 6 ~ 'High (>6")'
+    ),
+    wingspan_tier = factor(
+      wingspan_tier,
+      levels = c('Low (<4")', 'Medium (4–6")', 'High (>6")')
+    )
+  ) %>%
+  group_by(wingspan_tier) %>%
+  summarise(
+    blk = mean(blk, na.rm = TRUE),
+    trb = mean(trb, na.rm = TRUE),
+    stl = mean(stl, na.rm = TRUE)
+  ) %>%
+  pivot_longer(
+    cols = c(blk, trb, stl),
+    names_to = "stat",
+    values_to = "average"
+  )
+
+ggplot(summary_long, aes(x = wingspan_tier, y = average, fill = stat)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ stat, scales = "free_y") +
+  labs(
+    title = "Average Defensive Stats by Wingspan Advantage Tier",
+    x = "Wingspan Advantage Tier",
+    y = "Average Per Game(per player)"
+  ) +
+  theme_minimal()
+```
