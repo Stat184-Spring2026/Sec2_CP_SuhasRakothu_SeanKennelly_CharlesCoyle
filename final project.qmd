@@ -418,6 +418,59 @@ ggplot(
 Alt text: Scatter plot of wingspan advantage and blocks. Points are colored and
 shaped by position, and the highest and lowest wingspan advantage players are
 labeled.
+The scatter plot below compares wingspan advantage and total rebounds. This
+relationship is less clear than blocks. Some players with lower wingspan
+advantage still rebound well, so rebounding depends on more than arm length.
+
+```{r}
+#| label: suhas-rebounds-plot
+#| echo: false
+#| fig-cap: "Wingspan Advantage Compared to Total Rebounds by Position"
+#| fig-alt: "Scatter plot of wingspan advantage and rebounds by position with extremes labeled."
+# Primary Author: Suhas
+# Reviewed by:
+
+ggplot(
+  players_clean,
+  aes(
+    x = wingspan_advantage,
+    y = trb,
+    color = position,
+    shape = position
+  )
+) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(
+    aes(group = 1),
+    method = "lm",
+    se = FALSE,
+    color = "black",
+    linetype = "dashed"
+  ) +
+  geom_text_repel(
+    data = wingspan_extremes,
+    aes(label = name),
+    size = 3,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Wingspan Advantage vs. Total Rebounds",
+    x = "Wingspan Advantage (in)",
+    y = "Total Rebounds",
+    color = "Position",
+    shape = "Position",
+    caption = "Source: SCORE Sports Data Repository"
+  ) +
+  theme_minimal()
+```
+
+Alt text: Scatter plot of wingspan advantage and rebounds. Points are colored
+and shaped by position, and the highest and lowest wingspan advantage players
+are labeled.
+
+Overall, higher wingspan advantage seems connected to better defensive stats,
+especially blocks. However, position still matters a lot. Wingspan advantage is
+useful to look at, but it does not explain performance by itself.
 ---
 #Code Appendix
 
