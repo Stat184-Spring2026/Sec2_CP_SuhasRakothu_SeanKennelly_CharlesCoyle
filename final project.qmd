@@ -196,7 +196,22 @@ ggplot(summary_long, aes(x = wingspan_tier, y = average, fill = stat)) +
 This visualization shows average defensive stats of players across the three wingspan advantage tiers I created. It shows the average of each stat across each of the three wingspan groups so that comparaisons can be made.
 
 Overall, the results were as I expected as there was a clear correlation between wingspan advantages and higher blocks and rebounds. Within context of basketball this makes a lot of sense, as longer arms allows for longer reach to grab rebounds, as well as block opponent shots. When looking at steals, the pattern isn't as strong becuase that is a more perimeter defensive stat, and depends more on speed and agility more then length, even though wingspan is still an advantage.
+---
 
+# Player-Level Wingspan Extremes and Performance (Suhas)
+
+For my part of the project, I looked at the players with the highest and lowest
+wingspan advantage. Wingspan advantage is the difference between a player's
+wingspan and height. I wanted to see if players with longer arms compared to
+their height also had better stats, mainly in blocks and rebounds.
+
+This is an exploratory analysis because I am looking for patterns in the data.
+I am not trying to prove that wingspan is the only reason a player performs
+better. I used R and Tidyverse because it made it easier to organize the data,
+make tables, and create plots.
+
+Each row in this data set is one NBA player. The main things I used were
+position, height, wingspan advantage, points, blocks, rebounds, and steals.
 ---
 #Code Appendix
 
