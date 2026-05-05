@@ -370,12 +370,17 @@ ggplot(
 ) +
   geom_point(alpha = 0.7) +
   geom_smooth(
-    aes(group = 1),
-    method = "lm",
-    se = FALSE,
-    color = "black",
-    linetype = "dashed"
-  ) +
+  mapping = aes(
+    x = wingspan_advantage,
+    y = blk,
+    group = 1
+  ),
+  inherit.aes = FALSE,
+  method = "lm",
+  se = FALSE,
+  color = "black",
+  linetype = "dashed"
+) +
   geom_text_repel(
     data = wingspan_extremes,
     aes(label = name),
@@ -421,12 +426,17 @@ ggplot(
 ) +
   geom_point(alpha = 0.7) +
   geom_smooth(
-    aes(group = 1),
-    method = "lm",
-    se = FALSE,
-    color = "black",
-    linetype = "dashed"
-  ) +
+  mapping = aes(
+    x = wingspan_advantage,
+    y = trb,
+    group = 1
+  ),
+  inherit.aes = FALSE,
+  method = "lm",
+  se = FALSE,
+  color = "black",
+  linetype = "dashed"
+) +
   geom_text_repel(
     data = wingspan_extremes,
     aes(label = name),
