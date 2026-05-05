@@ -6,6 +6,13 @@ author:
   - name: Suhas Rakothu
   - name: Sean Kennelly
   - name: Charles Coyle
+format:
+  pdf:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    geometry: margin=1in
+    fontsize: 11pt
 ---
 
 # Introduction
