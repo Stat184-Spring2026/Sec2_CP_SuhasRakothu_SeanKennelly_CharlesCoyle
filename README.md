@@ -17,9 +17,15 @@ Refer to plan document (Project Plan).
 
 ## Repo Structure
 
-Use this section to explain the structure of your repo. This should help visitors quickly figure out where they should look to find certain elements. Further, you can use this space to highlight and briefly explain important/key files in the repo.
+This repo contains a README.md (this file)
+Project_Guidelines.md (project guidelines and task checklist)
+final project.qmd (quarto file of analysis)
+final report.pdf (pdf render of quarto file)
+Project Plan.pdf (project plan with goals and needs)
 
 
 ## Authors
 
-Give information about who are the authors of the project and how people can get in touch if they have questions.
+Sean Kennelly (email: sjk6901@psu.edu)
+Suhas Rakothu
+Charles Coyle
