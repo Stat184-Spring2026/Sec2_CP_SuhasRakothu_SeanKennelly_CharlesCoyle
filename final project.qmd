@@ -1,6 +1,5 @@
 ---
 title: "STAT184 Final Project"
-format: html
 editor: visual
 author:
   - name: Suhas Rakothu
@@ -34,14 +33,17 @@ This dataset was not used for any projects in class, contains real-world data, c
 
 ---
 
-# Physical Analysis Across Positions
+# Physical Analysis Across Positions (Sean)
 
 In this section we will explore how biometric measurements of NBA players vary across position. This is useful in understanding the importance physical characteristics of a player have in their role and duty. By grouping the biometric measurements by position, we can see clear trends in positions that can relate to performance. In the table below, we analyze three different biometric measurements by position: Height (in), Wingspan (in), and Wingspan Advantage (in). We calculate their mean and standard deviation for each of these across all positions. It shows how Centers and Power Forwards on average have a higher height and wingspan.
 
 ```{r}
 #| echo: false
+#| message: false
+#| warning: false
+#| label: Sean-Summary-Table-by-Position
 # Primary Author: Sean
-# Reviewed by:
+# Reviewed by: Suhas
 
 library(tidyverse)
 library(knitr)
@@ -70,9 +72,10 @@ nba_data |>
 The plot below shows boxplots for each position with respect to both height and wingspan. From this we can clearly see trends across positions. Centers clearly have the largest height and wingspan spread, followed closely by both forward positions. This may be insightful later into understanding the defensive contributions these positions have. Both guard positions have a smaller height and wingspan spread. Point guards specifically have the lowest height and wingspan spread, which makes sense because they are generally the most skillful players on their team. These boxplots highlight the importance of height and wingspan in basketball. 
 
 ```{r}
+#| label: Sean-Box-Plot-by-Position
 #| echo: false
 # Primary Author: Sean
-# Reviewed by: 
+# Reviewed by: Suhas
 
 nba_data |>
   select(position, height_inches, wingspan_inches) |>
@@ -118,6 +121,8 @@ For this dataset, each case represents and individual and unique NBA player. Eac
 ```{r}
 #| label: tbl-wingspan-summary
 #| echo: false
+#| message: false
+#| warning: false
 # Primary Author: Charlie
 # Reviewed by: Sean 
 
@@ -134,9 +139,9 @@ df <- read_csv("https://data.scorenetwork.org/data/nba_wingspan_performance_2025
 df <- df %>%
   mutate(
     wingspan_tier = case_when(
-      wingspan_advantage < 4 ~ 'Low (<4")',
-      wingspan_advantage >= 4 & wingspan_advantage <= 6 ~ 'Medium (4–6")',
-      wingspan_advantage > 6 ~ 'High (>6")'
+      wingspan_advantage < 4 ~ 'Low (<4)',
+      wingspan_advantage >= 4 & wingspan_advantage <= 6 ~ 'Medium (4–6)',
+      wingspan_advantage > 6 ~ 'High (>6)'
     )
   )
 
@@ -155,8 +160,9 @@ kable(summary_table)
 ```
 
 This table shows us the average statistics for the NBA players, as grouped by wingspan tier. I catogerized the players based on if they had a relatively low wingspan advantage (<4 inches), a medium one (4-6 inches) or a high one (>6 inches). When looking at this table we are able to analyze if a larger wingspan advantage leads players to perform better in certain categories, regardless of position. Overall there was a difference with the players with a high wingspan advantage performing better in every category, but it was the most noticable in the gap between low and medium when looking at blocks and rebounds which are more defensive statistics. We also must classify these results as descriptive though, as it cannot be proven that wingspan directly causes better statistical performance especially defensively due to other influences such as team role, team success, playing time, and position also may cause these differences.
+
 ```{r}
-#| label: tbl-wingspan-summary
+#| label: visual-wingspan
 #| echo: false
 # Primary Author: Charlie
 # Reviewed by: Sean
@@ -221,10 +227,296 @@ make tables, and create plots.
 Each row in this data set is one NBA player. The main things I used were
 position, height, wingspan advantage, points, blocks, rebounds, and steals.
 ---
+
+# Player-Level Wingspan Extremes and Performance (Suhas)
+
+For my part, I looked at players with the highest and lowest wingspan advantage. Wingspan advantage is the difference between a player's wingspan and height. I wanted to see if players with a bigger wingspan advantage also had better stats, mainly blocks and rebounds.
+
+This is exploratory because I am looking for patterns, not trying to prove wingspan causes better performance. Each row is one NBA player. The main variables I used are position, height, wingspan advantage, points, blocks, rebounds, and steals.
+
+```{r}
+#| label: suhas-clean-players
+#| echo: false
+#| message: false
+#| warning: false
+# Primary Author: Suhas
+# Reviewed by: Charlie
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(ggrepel)
+
+nba_data <- read_csv(
+  "nba_wingspan_performance_2025.csv",
+  show_col_types = FALSE
+)
+
+players_clean <- nba_data |>
+  select(
+    name,
+    position,
+    height_inches,
+    wingspan_advantage,
+    pts,
+    blk,
+    trb,
+    stl
+  ) |>
+  filter(
+    !is.na(name),
+    !is.na(position),
+    !is.na(height_inches),
+    !is.na(wingspan_advantage),
+    !is.na(pts),
+    !is.na(blk),
+    !is.na(trb),
+    !is.na(stl)
+  )
+
+lowest_wingspan <- players_clean |>
+  arrange(wingspan_advantage) |>
+  slice_head(n = 10) |>
+  mutate(group = "Lowest Wingspan Advantage")
+
+highest_wingspan <- players_clean |>
+  arrange(desc(wingspan_advantage)) |>
+  slice_head(n = 10) |>
+  mutate(group = "Highest Wingspan Advantage")
+
+wingspan_extremes <- bind_rows(
+  lowest_wingspan,
+  highest_wingspan
+)
+```
+The table below compares the 10 lowest and 10 highest players by wingspan
+advantage. This helps show the actual players in each group. The higher group
+seems to have stronger defensive stats overall, but it is not true for every
+player.
+
+```{r}
+#| label: suhas-extreme-table
+#| echo: false
+#| message: false
+#| warning: false
+# Primary Author: Suhas
+# Reviewed by: Charlie
+
+wingspan_extremes |>
+  select(
+    group,
+    name,
+    position,
+    height_inches,
+    wingspan_advantage,
+    pts,
+    blk,
+    trb,
+    stl
+  ) |>
+  mutate(
+    height_inches = round(height_inches, 2),
+    wingspan_advantage = round(wingspan_advantage, 2),
+    pts = round(pts, 2),
+    blk = round(blk, 2),
+    trb = round(trb, 2),
+    stl = round(stl, 2)
+  ) |>
+  kable(
+    caption = "Players with the Highest and Lowest Wingspan Advantage",
+    col.names = c(
+      "Group",
+      "Player",
+      "Position",
+      "Height (in)",
+      "Wingspan Advantage (in)",
+      "PTS",
+      "BLK",
+      "TRB",
+      "STL"
+    )
+  ) |>
+  kable_styling(bootstrap_options = "striped")
+```
+The table below shows the averages for each group. The high wingspan advantage
+group has a higher average for some defensive stats, especially blocks. This
+shows a possible pattern, but not a perfect one.
+
+```{r}
+#| label: suhas-summary-table
+#| echo: false
+#| message: false
+#| warning: false
+# Primary Author: Suhas
+# Reviewed by: Charlie
+
+wingspan_extremes |>
+  group_by(group) |>
+  summarize(
+    Players = n(),
+    Mean_Wingspan_Advantage = round(mean(wingspan_advantage), 2),
+    Mean_PTS = round(mean(pts), 2),
+    Mean_BLK = round(mean(blk), 2),
+    Mean_TRB = round(mean(trb), 2),
+    Mean_STL = round(mean(stl), 2)
+  ) |>
+  kable(
+    caption = "Average Stats for Wingspan Advantage Extremes",
+    col.names = c(
+      "Group",
+      "Players",
+      "Mean Wingspan Advantage",
+      "Mean PTS",
+      "Mean BLK",
+      "Mean TRB",
+      "Mean STL"
+    )
+  ) |>
+  kable_styling(bootstrap_options = "striped")
+```
+
+The scatter plot below compares wingspan advantage and blocks. There is a small
+upward trend, but position still matters. Centers and forwards usually get more
+block chances because of where they play.
+
+```{r}
+#| label: suhas-blocks-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-cap: "Wingspan Advantage Compared to Blocks by Position"
+#| fig-alt: "Scatter plot of wingspan advantage and blocks by position with extremes labeled."
+# Primary Author: Suhas
+# Reviewed by: Charlie
+
+ggplot(
+  players_clean,
+  aes(
+    x = wingspan_advantage,
+    y = blk,
+    color = position,
+    shape = position
+  )
+) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(
+  mapping = aes(
+    x = wingspan_advantage,
+    y = blk,
+    group = 1
+  ),
+  inherit.aes = FALSE,
+  method = "lm",
+  se = FALSE,
+  color = "black",
+  linetype = "dashed"
+) +
+  geom_text_repel(
+    data = wingspan_extremes,
+    aes(label = name),
+    size = 3,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Wingspan Advantage vs. Blocks",
+    x = "Wingspan Advantage (in)",
+    y = "Blocks",
+    color = "Position",
+    shape = "Position",
+    caption = "Source: SCORE Sports Data Repository"
+  ) +
+  theme_minimal()
+```
+
+Alt text: Scatter plot of wingspan advantage and blocks. Points are colored and
+shaped by position, and the highest and lowest wingspan advantage players are
+labeled.
+The scatter plot below compares wingspan advantage and total rebounds. This
+relationship is less clear than blocks. Some players with lower wingspan
+advantage still rebound well, so rebounding depends on more than arm length.
+
+```{r}
+#| label: suhas-rebounds-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-cap: "Wingspan Advantage Compared to Total Rebounds by Position"
+#| fig-alt: "Scatter plot of wingspan advantage and rebounds by position with extremes labeled."
+# Primary Author: Suhas
+# Reviewed by: Charlie
+
+ggplot(
+  players_clean,
+  aes(
+    x = wingspan_advantage,
+    y = trb,
+    color = position,
+    shape = position
+  )
+) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(
+  mapping = aes(
+    x = wingspan_advantage,
+    y = trb,
+    group = 1
+  ),
+  inherit.aes = FALSE,
+  method = "lm",
+  se = FALSE,
+  color = "black",
+  linetype = "dashed"
+) +
+  geom_text_repel(
+    data = wingspan_extremes,
+    aes(label = name),
+    size = 3,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Wingspan Advantage vs. Total Rebounds",
+    x = "Wingspan Advantage (in)",
+    y = "Total Rebounds",
+    color = "Position",
+    shape = "Position",
+    caption = "Source: SCORE Sports Data Repository"
+  ) +
+  theme_minimal()
+```
+
+Alt text: Scatter plot of wingspan advantage and rebounds. Points are colored
+and shaped by position, and the highest and lowest wingspan advantage players
+are labeled.
+
+Overall, higher wingspan advantage seems connected to better defensive stats,
+especially blocks. However, position still matters a lot. Wingspan advantage is
+useful to look at, but it does not explain performance by itself.
+
+
+
+# Summary
+
+From the visualizations and tables, we now have a better understanding of how physical characterstics give basketball players an advantage on the court. We can see how wingspan specifically increases defensive statistics such as blocks, but position on the court still matters a lot. This makes sense though from the first visualization we understand how positions on the court are also determined by physical characterstics. We saw how certain positions have on average a larger height and wingspan. From this we can see how large of an impact physical characterstics have on basketball performance. A taller player with a larger wingspan is more likely to have better defensive stats and play in a position to perform better. Although there are other factors to consider such as skill and age, we can see a direct relationship through our visuals between physical characteristics and defensive performance.
+
+---
+
+# Author Contributions
+
+For this assignment Sean Kennelly created the README.md file, the project plan, and the introduction in the qmd. He also worked on the first visualization and analysis plot. Charlie Coyle worked on the second visualization and analysis. Suhas Rakothu worked on the third visualization and analysis. 
+
+---
+
 # Code Appendix
 
 This appendix contains all R code used to import, clean, analyze, and visualize the data for our dataset
 
+
+## Physical Charactistics by Position Summary Table
+
+```{r}
+#| echo: true
+# Primary Author: Sean
+# Reviewed by: Suhas
 ## Physical Charactistics by Position Summary Table
 ```{r}
 #| echo: true
@@ -259,7 +551,8 @@ nba_data |>
 ```{r}
 #| echo: true
 # Primary Author: Sean
-# Reviewed by: 
+# Reviewed by: Suhas
+
 
 nba_data |>
   select(position, height_inches, wingspan_inches) |>
@@ -377,5 +670,193 @@ ggplot(summary_long, aes(x = wingspan_tier, y = average, fill = stat)) +
   ) +
   theme_minimal()
 ```
+## Suhas Wingspan Extremes Table Code
 
+```{r}
+#| label: suhas-table-appendix
+#| echo: true
+#| message: false
+#| warning: false
+# Primary Author: Suhas
+# Reviewed by: Charlie
 
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(ggrepel)
+
+nba_data <- read_csv("nba_wingspan_performance_2025.csv")
+
+players_clean <- nba_data |>
+  select(
+    name,
+    position,
+    height_inches,
+    wingspan_advantage,
+    pts,
+    blk,
+    trb,
+    stl
+  ) |>
+  filter(
+    !is.na(name),
+    !is.na(position),
+    !is.na(height_inches),
+    !is.na(wingspan_advantage),
+    !is.na(pts),
+    !is.na(blk),
+    !is.na(trb),
+    !is.na(stl)
+  )
+
+lowest_wingspan <- players_clean |>
+  arrange(wingspan_advantage) |>
+  slice_head(n = 10) |>
+  mutate(group = "Lowest Wingspan Advantage")
+
+highest_wingspan <- players_clean |>
+  arrange(desc(wingspan_advantage)) |>
+  slice_head(n = 10) |>
+  mutate(group = "Highest Wingspan Advantage")
+
+wingspan_extremes <- bind_rows(
+  lowest_wingspan,
+  highest_wingspan
+)
+
+wingspan_extremes |>
+  select(
+    group,
+    name,
+    position,
+    height_inches,
+    wingspan_advantage,
+    pts,
+    blk,
+    trb,
+    stl
+  ) |>
+  mutate(
+    height_inches = round(height_inches, 2),
+    wingspan_advantage = round(wingspan_advantage, 2),
+    pts = round(pts, 2),
+    blk = round(blk, 2),
+    trb = round(trb, 2),
+    stl = round(stl, 2)
+  ) |>
+  kable(
+    caption = "Players with the Highest and Lowest Wingspan Advantage",
+    col.names = c(
+      "Group",
+      "Player",
+      "Position",
+      "Height (in)",
+      "Wingspan Advantage (in)",
+      "PTS",
+      "BLK",
+      "TRB",
+      "STL"
+    )
+  ) |>
+  kable_styling(bootstrap_options = "striped")
+
+wingspan_extremes |>
+  group_by(group) |>
+  summarize(
+    Players = n(),
+    Mean_Wingspan_Advantage = round(mean(wingspan_advantage), 2),
+    Mean_PTS = round(mean(pts), 2),
+    Mean_BLK = round(mean(blk), 2),
+    Mean_TRB = round(mean(trb), 2),
+    Mean_STL = round(mean(stl), 2)
+  ) |>
+  kable(
+    caption = "Average Stats for Wingspan Advantage Extremes",
+    col.names = c(
+      "Group",
+      "Players",
+      "Mean Wingspan Advantage",
+      "Mean PTS",
+      "Mean BLK",
+      "Mean TRB",
+      "Mean STL"
+    )
+  ) |>
+  kable_styling(bootstrap_options = "striped")
+```
+### Suhas Wingspan Extremes Visualization Code
+
+```{r}
+#| label: suhas-visual-appendix
+#| echo: true
+#| message: false
+#| warning: false
+# Primary Author: Suhas
+# Reviewed by: Charlie
+
+ggplot(
+  players_clean,
+  aes(
+    x = wingspan_advantage,
+    y = blk,
+    color = position,
+    shape = position
+  )
+) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(
+    aes(group = 1),
+    method = "lm",
+    se = FALSE,
+    color = "black",
+    linetype = "dashed"
+  ) +
+  geom_text_repel(
+    data = wingspan_extremes,
+    aes(label = name),
+    size = 3,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Wingspan Advantage vs. Blocks",
+    x = "Wingspan Advantage (in)",
+    y = "Blocks",
+    color = "Position",
+    shape = "Position",
+    caption = "Source: SCORE Sports Data Repository"
+  ) +
+  theme_minimal()
+
+ggplot(
+  players_clean,
+  aes(
+    x = wingspan_advantage,
+    y = trb,
+    color = position,
+    shape = position
+  )
+) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(
+    aes(group = 1),
+    method = "lm",
+    se = FALSE,
+    color = "black",
+    linetype = "dashed"
+  ) +
+  geom_text_repel(
+    data = wingspan_extremes,
+    aes(label = name),
+    size = 3,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Wingspan Advantage vs. Total Rebounds",
+    x = "Wingspan Advantage (in)",
+    y = "Total Rebounds",
+    color = "Position",
+    shape = "Position",
+    caption = "Source: SCORE Sports Data Repository"
+  ) +
+  theme_minimal()
+```
