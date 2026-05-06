@@ -68,6 +68,7 @@ nba_data |>
   add_header_above(c(" " = 1, "Height (in)" = 2, "Wingspan (in)" = 2, "Wingspan Advantage (in)" = 2)) |>
   kable_styling(bootstrap_options = "striped")
 ```
+
 The plot below shows boxplots for each position with respect to both height and wingspan. From this we can clearly see trends across positions. Centers clearly have the largest height and wingspan spread, followed closely by both forward positions. This may be insightful later into understanding the defensive contributions these positions have. Both guard positions have a smaller height and wingspan spread. Point guards specifically have the lowest height and wingspan spread, which makes sense because they are generally the most skillful players on their team. These boxplots highlight the importance of height and wingspan in basketball. 
 
 ```{r}
@@ -123,7 +124,7 @@ For this dataset, each case represents and individual and unique NBA player. Eac
 #| message: false
 #| warning: false
 # Primary Author: Charlie
-# Reviewed by: Sean
+# Reviewed by: Sean 
 
 # ---  Load libraries ---
 library(dplyr)
@@ -209,7 +210,22 @@ ggplot(summary_long, aes(x = wingspan_tier, y = average, fill = stat)) +
 This visualization shows average defensive stats of players across the three wingspan advantage tiers I created. It shows the average of each stat across each of the three wingspan groups so that comparaisons can be made.
 
 Overall, the results were as I expected as there was a clear correlation between wingspan advantages and higher blocks and rebounds. Within context of basketball this makes a lot of sense, as longer arms allows for longer reach to grab rebounds, as well as block opponent shots. When looking at steals, the pattern isn't as strong becuase that is a more perimeter defensive stat, and depends more on speed and agility more then length, even though wingspan is still an advantage.
+---
 
+# Player-Level Wingspan Extremes and Performance (Suhas)
+
+For my part of the project, I looked at the players with the highest and lowest
+wingspan advantage. Wingspan advantage is the difference between a player's
+wingspan and height. I wanted to see if players with longer arms compared to
+their height also had better stats, mainly in blocks and rebounds.
+
+This is an exploratory analysis because I am looking for patterns in the data.
+I am not trying to prove that wingspan is the only reason a player performs
+better. I used R and Tidyverse because it made it easier to organize the data,
+make tables, and create plots.
+
+Each row in this data set is one NBA player. The main things I used were
+position, height, wingspan advantage, points, blocks, rebounds, and steals.
 ---
 
 # Player-Level Wingspan Extremes and Performance (Suhas)
@@ -501,6 +517,11 @@ This appendix contains all R code used to import, clean, analyze, and visualize 
 #| echo: true
 # Primary Author: Sean
 # Reviewed by: Suhas
+## Physical Charactistics by Position Summary Table
+```{r}
+#| echo: true
+# Primary Author: Sean
+# Reviewed by:
 
 library(tidyverse)
 library(knitr)
@@ -531,6 +552,7 @@ nba_data |>
 #| echo: true
 # Primary Author: Sean
 # Reviewed by: Suhas
+
 
 nba_data |>
   select(position, height_inches, wingspan_inches) |>
@@ -607,7 +629,7 @@ kable(summary_table)
 #| label: visual-wingspan-appendix
 #| echo: true
 # Primary Author: Charlie
-# Reviewed by: Sean
+# Reviewed by: Sean 
 library(dplyr)
 library(tidyr)
 library(ggplot2)
