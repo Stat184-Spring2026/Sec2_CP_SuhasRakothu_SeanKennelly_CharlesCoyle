@@ -17,15 +17,16 @@ Refer to plan document (Project Plan).
 
 ## Repo Structure
 
-This repo contains a README.md (this file)
-Project_Guidelines.md (project guidelines and task checklist)
-final project.qmd (quarto file of analysis)
-final report.pdf (pdf render of quarto file)
-Project Plan.pdf (project plan with goals and needs)
+This repo contains:
+-README.md (this file)
+-Project_Guidelines.md (project guidelines and task checklist)
+-final project.qmd (quarto file of analysis)
+-final report.pdf (pdf render of quarto file)
+-Project Plan.pdf (project plan with goals and needs)
 
 
 ## Authors
 
-Sean Kennelly (email: sjk6901@psu.edu)
-Suhas Rakothu
+Sean Kennelly (email: sjk6901@psu.edu),
+Suhas Rakothu,
 Charles Coyle
